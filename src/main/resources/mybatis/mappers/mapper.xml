@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="mapper.mapper">
+
+	<resultMap id="memResult" type="vo.UserVO">
+		<result	property="fr_id"		column="fr_id"/>
+		<result property="fr_pwd"		column="fr_pwd"/>
+		<result property="fr_name"		column="fr_name"/>
+		<result property="fr_p_number"	column="fr_p_number"/>
+		<result property="fr_email"		column="fr_email"/>
+		<result property="fr_class"		column="fr_class"/>	
+	</resultMap>
+
+	
+		<!-- 회원 가입 -->
+		<insert id="addUser" parameterType="vo.UserVO">
+			INSERT INTO ezenfood.fr_user (fr_id, fr_pwd, fr_name, fr_p_number, fr_email, fr_class)
+			VALUES (#{fr_id}, #{fr_pwd}, #{fr_name}, #{fr_p_number}, #{fr_email}, #{fr_class})
+		</insert>
+		
+		<!-- 로그인 -->
+		<select id="login" parameterType="vo.UserVO" resultType="vo.UserVO">
+			SELECT * FROM	fr_user
+			WHERE			fr_id  = #{fr_id}
+			AND				fr_pwd = #{fr_pwd}
+		</select>
+		
+		<!-- 아이디 찾기  -->
+		<select id="findId" parameterType="vo.UserVO" resultType="vo.UserVO">	
+			SELECT fr_id
+			FROM   fr_user
+			WHERE  fr_name  = #{fr_name}
+			AND    fr_email = #{fr_email}
+		</select>
+		
+		<!-- 아이디 중복검사  -->
+		<select id="checkId" parameterType="vo.UserVO" resultType="int">	
+			SELECT COUNT(*)
+			FROM   fr_user
+			WHERE  fr_id  = #{fr_id}
+		</select>
+		
+		<!-- 비밀번호 찾기  -->
+		<select id="findPwd" parameterType="vo.UserVO" resultType="vo.UserVO">
+			SELECT	fr_pwd
+			FROM	fr_user
+			WHERE	fr_id    = #{fr_id}
+			AND	    fr_email = #{fr_email}
+		</select>
+		
+		<!-- 마이페이지 -->
+		<select id="myPageForm" parameterType="vo.UserVO" resultType="vo.UserVO">[
+			SELECT * 
+			FROM   fr_user
+			WHERE  fr_id = #{fr_id}
+		</select>
+		
+		<!-- 마이페이지 변경하기 -->
+		<update id="myPageUpdateGo" parameterType="vo.UserVO">
+			UPDATE fr_user
+			SET    fr_pwd      = #{fr_pwd},
+				   fr_name     = #{fr_name}, 
+				   fr_p_number = #{fr_p_number},
+				   fr_email    = #{fr_email}
+		    WHERE  fr_id       = #{fr_id}    
+		</update>
+		
+		<!-- 채팅 디비에 올리기 -->
+		<insert id="chatInput" parameterType="vo.ChatVO">
+			INSERT INTO ezenfood.chat (fr_id, word)
+			VALUES (#{fr_id}, #{word})
+		</insert>
+			
+		<!-- 채팅 리스트 가져오기 -->
+		<select id="chatList" parameterType="String" resultType="vo.ChatVO">
+			SELECT * 
+			FROM	chat
+			WHERE date > #{enterDate}
+		</select>
+		
+		<!-- DB에 입장시간 이후로 등록되는 데이터 갯수를 지속 카운팅하기 위한 쿼리문. -->
+		<select id="inCnt" parameterType="String" resultType="int">
+			SELECT COUNT(*)
+			FROM	chat
+			WHERE date > #{enterDate}
+		</select>
+		
+</mapper>
+
+
+
+

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+   
+<mapper namespace="mapper.store">
+
+	<resultMap id="storeResult" type="vo.StoreVO">
+		<result	property="fr_no"				column="fr_no"/>
+		<result property="fr_id"				column="fr_id"/>
+		<result property="fr_store_name"		column="fr_store_name"/>
+		<result property="fr_address"			column="fr_address"/>
+		<result property="fr_store_p_number"	column="fr_store_p_number"/>
+		<result property="fr_menu"				column="fr_menu"/>	
+		<result property="fr_store_ox"			column="fr_store_ox"/>	
+	</resultMap>
+		
+		<!-- 업체중복등록 방지 -->
+		<select id="regiForm" parameterType="String" resultType="int">
+			SELECT COUNT(*)
+			FROM   ezenfood.fr_store
+			WHERE  fr_id = #{fr_id}
+		</select>
+		
+		<!-- 업체명 중복 체크 -->
+		<select id="checkStore" parameterType="vo.StoreVO" resultType="int">
+			SELECT	COUNT(*)
+			FROM	ezenfood.fr_store
+			WHERE	fr_store_name = #{fr_store_name}
+		</select>
+		
+		<!-- 업체 등록 -->
+		<insert id="addregi" parameterType="vo.StoreVO">
+			INSERT INTO ezenfood.fr_store (fr_no, fr_id, fr_store_name, fr_address, fr_store_p_number, fr_menu)
+			VALUES(#{fr_no}, #{fr_id}, #{fr_store_name}, #{fr_address}, #{fr_store_p_number}, #{fr_menu})
+		</insert>
+	
+		<!-- 승인 요청 List -->
+		<select id="approveList" resultMap="storeResult">
+			SELECT 	*
+			FROM 	fr_store
+			WHERE 	fr_store_ox = 'x' 	
+			ORDER BY fr_no DESC
+		</select>
+		
+		<!-- 미등록 업체 승인하기  -->
+		<update id="approveGo" parameterType="vo.StoreVO">
+			UPDATE fr_store
+			SET    fr_store_ox = 'o' 
+			WHERE  fr_id = #{fr_id}
+		</update>
+		
+		<!-- 업체 승인시 fr_class를 12로 변경 -->
+		<update id="approveOwnerGo" parameterType="vo.StoreVO">
+			UPDATE fr_user
+			SET    fr_class = '12'
+			WHERE  fr_class = '02'
+			AND    fr_id = #{fr_id}
+		</update>
+		
+		<!-- 업체 리스트 ( 검색조건 차등 결과 )-->
+		<select id="approveOkList" parameterType="HashMap" resultMap="storeResult">
+			SELECT 	*
+			FROM 	fr_store
+			WHERE 	fr_store_ox = 'o'
+			<if test="selectChk == 'fr_store_name'">AND fr_store_name LIKE CONCAT('%',#{selectText},'%')</if>
+			<if test="selectChk == 'fr_address'">AND fr_address LIKE CONCAT('%',#{selectText},'%')</if>
+			<if test="selectChk == 'null' or selectChk == '' "></if>
+			order by fr_no DESC Limit #{startCnt},#{PagingCnt}
+		</select>
+		
+		<!-- 업체 갯수 카운팅 -->
+		<select id="fr_no_Count" parameterType="int" resultType="int">
+			SELECT	COUNT(*)
+			FROM	fr_store
+			WHERE 	fr_store_ox = 'o'
+			<if test="selectChk == 'fr_store_name'">AND fr_store_name LIKE CONCAT('%',#{selectText},'%')</if>
+			<if test="selectChk == 'fr_address'">AND fr_address LIKE CONCAT('%',#{selectText},'%')</if>
+			<if test="selectChk == 'null' or selectChk == '' "></if>
+		</select>
+		
+		<!-- 업체번호 매칭(아이디) / 업체 사장이 예약에 대한 룸정보 확인 시 사용 -->
+		<select id="findFr_no" parameterType="String" resultType="int">
+			SELECT 	fr_no
+			FROM 	fr_store
+			WHERE 	fr_id = #{fr_id}
+		</select>
+		
+		<!-- 고객이 검색 시 사용 -->
+		<!-- 이용 가능한 업체 리스트 총 갯수(conunt) 구하기(totalCount) - 페이징 처리 - -->
+		<select id="countList" resultType="int">
+			SELECT 	count(DISTINCT ST.fr_no)
+			FROM 	fr_store AS ST
+			JOIN	fr_room_info AS RI
+			ON		ST.fr_no = RI.fr_no			
+		</select>
+		
+		<!-- 승인 완료 및 생성된 방 List 검색 (예약하기 누르면 가장먼저 보여주는 List)-->
+		<select id="StoreList" resultMap="storeResult">
+			SELECT 	*
+			FROM 	fr_store AS ST
+			JOIN	fr_room_info AS RI
+			ON		ST.fr_no = RI.fr_no
+			GROUP BY ST.fr_no
+			ORDER BY ST.fr_no DESC
+			LIMIT #{pageStart}, #{perPageNum}
+		</select>
+		
+		<!-- 이용 가능한 업체 지역(대분류)별 리스트 갯수(conunt) 구하기(totalCount) - 페이징 처리 - -->
+		<select id="countList2" resultType="int">
+			SELECT 	count(DISTINCT ST.fr_no)
+			FROM 	fr_store AS ST
+			JOIN	fr_room_info AS RI
+			ON		ST.fr_no = RI.fr_no	
+			WHERE 	ST.fr_address LIKE CONCAT('%',#{findBigStore},'%')
+			AND		ST.fr_address LIKE CONCAT('%',#{findSmallStore},'%')
+			AND		ST.fr_no = RI.fr_no		
+		</select>
+		
+		<!-- 지역별 업체 검색 -->
+		<select id="findStoreList" parameterType="HashMap" resultMap="storeResult">
+			SELECT 	*
+			FROM 	fr_store AS ST
+			JOIN	fr_room_info AS RI
+			ON		ST.fr_no = RI.fr_no
+			WHERE 	ST.fr_address LIKE CONCAT('%',#{findBigStore},'%')
+			AND		ST.fr_address LIKE CONCAT('%',#{findSmallStore},'%')
+			GROUP BY ST.fr_no
+			ORDER BY ST.fr_no DESC
+			LIMIT #{pageStart}, #{perPageNum}
+		</select>
+		
+		<!-- 지역검색 이후 메뉴 및 인원으로 검색 한 업체 리스트 갯수(conunt) 구하기(totalCount) - 페이징 처리 - -->
+		<select id="countList3" resultType="int">
+			SELECT 	count(DISTINCT ST.fr_no)
+			FROM 	fr_store AS ST
+			JOIN	fr_room_info AS RI
+			ON		ST.fr_no = RI.fr_no	
+			WHERE 	ST.fr_address LIKE CONCAT('%',#{findBigStore},'%')
+			AND		ST.fr_address LIKE CONCAT('%',#{findSmallStore},'%')
+			AND		ST.fr_no = RI.fr_no	
+			AND		RI.fr_room_person_no >= #{personNo}
+			AND		ST.fr_menu in(#{menu1}, #{menu2}, #{menu3}, #{menu4}, #{menu5})	
+		</select>
+		
+		<!-- 지역검색 이후 메뉴 및 인원으로 업체 검색 -->
+		<select id="findStoreList2" parameterType="vo.SelectVO" resultMap="storeResult">
+			SELECT 	ST.fr_store_name, ST.fr_address, ST.fr_store_p_number, ST.fr_menu, ST.fr_no 
+			FROM 	fr_store AS ST
+			JOIN	fr_room_info AS RI
+			ON		ST.fr_no = RI.fr_no
+			WHERE 	ST.fr_address LIKE CONCAT('%',#{findBigStore},'%')
+			AND		ST.fr_address LIKE CONCAT('%',#{findSmallStore},'%')
+			AND		ST.fr_no = RI.fr_no
+			AND		RI.fr_room_person_no >= #{personNo}
+			AND		ST.fr_menu in(#{menu1}, #{menu2}, #{menu3}, #{menu4}, #{menu5})
+			GROUP BY ST.fr_no
+			ORDER BY ST.fr_no DESC
+			LIMIT #{pageStart}, #{perPageNum}
+		</select>
+	
+</mapper>

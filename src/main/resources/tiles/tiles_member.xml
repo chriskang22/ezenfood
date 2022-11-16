@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+   
+   <definition name="baseLayout"   template="/WEB-INF/views/common/layout.jsp">
+      <put-attribute    name="title"   value=""/>
+      <put-attribute    name="header"   value="/WEB-INF/views/common/header.jsp"/>
+      <put-attribute   name="body"      value=""/>
+      <put-attribute   name="footer"   value="/WEB-INF/views/common/footer.jsp"/>         
+   </definition>
+
+   <definition name="main" extends="baseLayout">
+      <put-attribute   name="title"   value="메인 페이지"/>
+      <put-attribute   name="body"      value="/WEB-INF/views/main.jsp"/>
+   </definition>	
+
+	<!-- user -->
+    <definition name="/user/loginForm" extends="baseLayout">
+        <put-attribute name="title"  value="로그인 페이지"/>
+        <put-attribute name="body"   value="/WEB-INF/views/user/loginForm.jsp"/>
+    </definition>
+
+    <definition name="/user/myPage" extends="baseLayout">
+        <put-attribute name="title"  value="마이 페이지"/>
+        <put-attribute name="body"   value="/WEB-INF/views/user/myPage.jsp"/>
+    </definition>   
+
+    <definition name="/user/myPageUpdateForm" extends="baseLayout">
+        <put-attribute name="title"  value="내 정보 수정하기"/>
+        <put-attribute name="body"   value="/WEB-INF/views/user/myPageUpdateForm.jsp"/>
+    </definition>   
+    
+    <definition name="/user/signUpForm" extends="baseLayout">
+        <put-attribute name="title"  value="회원가입 페이지"/>
+        <put-attribute name="body"   value="/WEB-INF/views/user/signUpForm.jsp"/>
+    </definition> 
+    <!-- end user -->  
+    
+	<!-- owner -->
+    <definition name="/owner/**" extends="baseLayout">
+        <put-attribute name="title"  value="오너 페이지"/>
+        <put-attribute name="body"   value="/WEB-INF/views/owner/{1}.jsp"/>
+    </definition>
+	<!-- end owner -->  
+	
+	<!-- admin -->
+    <definition name="/admin/**" extends="baseLayout">
+        <put-attribute name="title"  value="오너 페이지"/>
+        <put-attribute name="body"   value="/WEB-INF/views/admin/{1}.jsp"/>
+    </definition>
+	<!-- admin owner --> 
+	
+	<!-- member -->
+    <definition name="/member/**" extends="baseLayout">
+        <put-attribute name="title"  value="회원 페이지"/>
+        <put-attribute name="body"   value="/WEB-INF/views/member/{1}.jsp"/>
+    </definition>
+	<!-- member owner --> 	    
+</tiles-definitions>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

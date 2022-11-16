@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration 	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!-- root-context.xml(action-mybatis.xml)에서 modelConfig.xml을 설정해주어야 한다. -->
+
+<configuration>
+	
+
+</configuration>
+
+
+
+
+
+
+

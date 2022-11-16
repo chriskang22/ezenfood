@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="mapper.room">
+
+	<resultMap id="memResult" type="vo.RoomVO">
+		<result	property="fr_room_no"			column="fr_room_no"/>
+		<result property="fr_no"				column="fr_no"/>
+		<result property="fr_room_name"			column="fr_room_name"/>
+		<result property="fr_room_person_no"	column="fr_room_person_no"/>
+		<result property="fr_room_image"		column="fr_room_image"/>
+	</resultMap>
+	
+	<resultMap id="revResult" type="vo.ReservationVO">
+		<result property="fr_reservation_date"			column="fr_reservation_date"/>
+		<result property="fr_reservation_person_no"		column="fr_reservation_person_no"/>
+		<result property="fr_reservation_date"			column="fr_reservation_date"/>
+		<result property="fr_reservation_ox"			column="fr_reservation_ox"/>
+		<result property="fr_room_no"					column="fr_room_no"/>
+	</resultMap>
+	
+	<resultMap id="setRevResult" type="vo.SetRevVO">
+		<result property="fr_no"					column="fr_no"/>
+		<result property="fr_room_no"				column="fr_room_no"/>
+		<result property="fr_reservation_date"		column="fr_reservation_date"/>
+		<result property="fr_room_ox"				column="fr_room_ox"/>
+	</resultMap>
+
+		<!-- 룸 List -->
+		<select id="roomList" parameterType="int" resultMap="memResult">
+			SELECT 	*
+			FROM 	fr_room_info
+			WHERE 	fr_no = #{fr_no}	
+		</select>
+		
+		<!-- 룸 정보 추가하기 -->
+		<insert id="addRoomImage" parameterType="vo.RoomVO">
+			INSERT INTO ezenfood.fr_room_info (fr_no, fr_room_name, fr_room_person_no, fr_room_image)
+			VALUES (#{fr_no}, #{fr_room_name}, #{fr_room_person_no}, #{fr_room_image})
+		</insert>
+		
+		<!-- 룸 삭제하기 -->
+		<delete id="roomDelete" parameterType="int">
+			DELETE FROM fr_room_info 
+			WHERE 	fr_room_no not in (select fr_room_no from fr_reservation where fr_room_no is not NULL)
+			AND 	fr_room_no  = #{fr_room_no}
+		</delete>
+		
+		<!-- 달력 불러올 때 예약 리스트 가져오기 -->
+		<select id="revAllLists" parameterType="int" resultMap="revResult">
+			SELECT *
+			FROM   fr_reservation
+			WHERE  fr_room_no in (SELECT fr_room_no
+								  FROM   fr_room_info
+								  WHERE  fr_no = #{fr_no})
+		</select>
+		
+		<!-- 달력 불러올 때 휴일 여부 리스트 -->
+		<select id="SetRevList" parameterType="int" resultMap="setRevResult">
+			SELECT *
+			FROM   fr_set_reservation
+			WHERE  fr_no = #{fr_no}
+		</select>
+		
+		<!-- 업체 사장이 예약에 대한 룸정보 확인 시 사용 -->
+		<!-- 예약 완료된 룸 리스트 -->
+		<select id="revRoomList" parameterType="java.util.HashMap" resultMap="memResult">
+			SELECT * FROM ezenfood.fr_room_info
+			WHERE fr_room_no in (select fr_room_no from fr_reservation where fr_reservation_date = #{fr_reservation_date})
+			AND fr_no = #{fr_no}
+		</select>
+		
+		<!-- 예약 가능한 룸 리스트.-->
+		<select id="frRoomNoList" parameterType="java.util.HashMap" resultMap="memResult">
+			SELECT * FROM ezenfood.fr_room_info
+			WHERE fr_room_no not in (select fr_room_no from fr_reservation where fr_reservation_date = #{fr_reservation_date})
+			AND fr_no = #{fr_no}
+		</select>
+		
+		<!-- 오프라인 예약 완료 처리 -->
+		<insert id="ownerRevOk" parameterType="java.util.HashMap">
+			INSERT INTO ezenfood.fr_reservation (fr_reservation_date, fr_room_no, fr_reservation_ox, fr_name, fr_reservation_person_no, fr_p_number)
+			VALUES (#{fr_reservation_date}, #{fr_room_no}, 'x', '오프라인예약', '오프라인예약', '오프라인예약')
+		</insert>
+		
+		<!-- 예약 리스트에서 전달받은 값에 해당하는 컬럼 삭제 -->
+		<insert id="cancleRev" parameterType="java.util.HashMap">
+			DELETE FROM ezenfood.fr_reservation
+			WHERE fr_reservation_date = #{fr_reservation_date}
+			AND fr_room_no = #{fr_room_no}
+		</insert>
+
+		<!-- 해당 룸에 예약된 회원 -->
+		<select id="revUserList" parameterType="java.util.HashMap" resultMap="revResult">
+			SELECT * FROM ezenfood.fr_reservation
+			WHERE fr_room_no = #{fr_room_no}
+			AND fr_reservation_date = #{fr_reservation_date}
+		</select>
+		
+		<!-- 업체 휴일 등록 -->
+		<insert id="restDay" parameterType="java.util.HashMap">
+			INSERT INTO ezenfood.fr_set_reservation (fr_no, fr_reservation_date)
+			VALUES (#{fr_no}, #{fr_reservation_date})
+		</insert>
+		
+		<!-- 업체 휴일 등록 -->
+		<insert id="restDeleteDay" parameterType="java.util.HashMap">
+			DELETE FROM ezenfood.fr_set_reservation
+			WHERE fr_reservation_date = #{fr_reservation_date}
+		</insert>
+		
+		<!-- 업체 휴일 체크-->
+		<select id="revCnt" parameterType="java.util.HashMap" resultType="int">
+			SELECT count(fr_no)
+			FROM fr_set_reservation
+			WHERE fr_no = #{fr_no}
+			AND fr_reservation_date = #{fr_reservation_date}
+		</select>
+		
+		<!-- 고객이 검색 시 사용 -->
+		<!-- 회원이 검색한 조건(지역,메뉴,업체, 오늘날짜)에 따른 예약 가능한 룸 List -->
+		<select id="selectRoomList" parameterType="java.util.HashMap" resultMap="memResult">
+			SELECT 	*
+			FROM 	fr_room_info
+			WHERE 	fr_room_no not in (select fr_room_no from fr_reservation where fr_reservation_date = CURDATE())
+			AND 	fr_no = #{fr_no}	
+			AND		fr_room_person_no >= #{personNo}
+		</select>
+		
+		<!-- 회원이 검색한 조건(지역,메뉴,업체, 오늘날짜)에 따른 예약 완료된 룸 List -->
+		<select id="completionRoomList" parameterType="java.util.HashMap" resultMap="memResult">
+			SELECT 	*
+			FROM 	fr_room_info
+			WHERE 	fr_room_no in (select fr_room_no from fr_reservation where fr_reservation_date = CURDATE())
+			AND 	fr_no = #{fr_no}	
+			AND		fr_room_person_no >= #{personNo}
+		</select>
+		
+		<!-- 회원이 검색한 조건(지역,메뉴,업체,선택날짜)에 따른 예약 가능한 룸 List -->
+		<select id="selectDateRoomList" parameterType="java.util.HashMap" resultMap="memResult">
+			SELECT 	*
+			FROM 	fr_room_info
+			WHERE 	fr_room_no not in (select fr_room_no from fr_reservation where fr_reservation_date = #{fr_reservation_date})
+			AND 	fr_no = #{fr_no}	
+			AND		fr_room_person_no >= #{personNo}
+		</select>
+		
+		<!-- 회원이 검색한 조건(지역,메뉴,업체,선택날짜)에 따른 예약 완료된 룸 List -->
+		<select id="completionDateRoomList" parameterType="java.util.HashMap" resultMap="memResult">
+			SELECT 	*
+			FROM 	fr_room_info
+			WHERE 	fr_room_no in (select fr_room_no from fr_reservation where fr_reservation_date = #{fr_reservation_date})
+			AND 	fr_no = #{fr_no}	
+			AND		fr_room_person_no >= #{personNo}
+		</select>
+		
+		<!-- 회원이 예약할 업체의 휴일 체크-->
+		<select id="restCheck" parameterType="java.util.HashMap" resultType="int">
+			SELECT count(fr_no)
+			FROM fr_set_reservation
+			WHERE fr_no = #{fr_no}
+			AND fr_reservation_date = #{fr_reservation_date}
+		</select>
+		
+		<!-- 회원 온라인 예약하기 -->
+		<insert id="onlineReservation" parameterType="vo.ReservationVO">
+			INSERT INTO fr_reservation (fr_room_no, fr_name, fr_p_number, fr_reservation_person_no, fr_reservation_date, fr_reservation_ox)
+			VALUES (#{fr_room_no}, #{fr_name}, #{fr_p_number}, #{fr_reservation_person_no}, #{fr_reservation_date}, 'o')
+		</insert>
+		
+		<!-- 회원이 예약한 룸 List -->
+		<select id="myReservation" parameterType="java.util.HashMap" resultType="HashMap">
+			SELECT 	RE.fr_room_no, RE.fr_name, RE.fr_reservation_person_no, RE.fr_reservation_date, RI.fr_room_image, RI.fr_no,
+					RI.fr_room_name, ST.fr_store_name, ST.fr_address, ST.fr_store_p_number
+			FROM 	fr_reservation 	AS RE
+			JOIN	fr_room_info 	AS RI
+			JOIN	fr_store		AS ST
+			ON		RE.fr_room_no = RI.fr_room_no
+			AND		RI.fr_no = ST.fr_no
+			WHERE 	RE.fr_name 		= #{fr_name}
+			AND		RE.fr_p_number 	= #{fr_p_number}
+			AND		RE.fr_reservation_date >= CURDATE();		
+		</select>
+		
+		<!-- 회원이 예약한 룸 취소하기 -->
+		<delete id="myReservationCancle" parameterType="java.util.HashMap">
+			DELETE FROM fr_reservation 
+			WHERE 	fr_room_no 			 = #{fr_room_no}
+			AND 	fr_reservation_date  = #{fr_reservation_date}
+			AND 	fr_reservation_date  != CURDATE()
+			AND 	fr_name 			 = #{fr_name}
+			AND		fr_p_number 		 = #{fr_p_number}
+		</delete>
+		
+</mapper>
+
+
+
+

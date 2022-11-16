@@ -1,0 +1,987 @@
+@charset "UTF-8";
+
+html {	
+
+}
+body {
+	width:  1550px;
+	height:	750px;
+	margin: 0;	
+}
+/* 레이아웃 기본 설정 */
+#container {			/* 레이아웃.jsp 파일에서 모든 영역을 돋보이게 하기 위한 효과로 모든 범위에 부여 */
+
+width:		100%;
+height:		100%;
+text-align:					center;					/* 내부 컨텐츠 정렬방식 */
+
+}
+
+#content {
+text-align:					center;
+width:						80%;
+height:						80%;	
+background-color:			white;
+margin:						0 0 0 10%;
+}
+
+#header {
+width:						100%;	
+height:						10%;
+text-align:					center;
+background-color:			#1de2e2;
+}
+
+#footer {
+width:						100%;	
+height:						10%;
+text-align:					center;
+background-color:			#c0c0c0;
+}
+
+
+/* 헤더 영역 */
+.topTable {
+width:						100%;		/* 테이블 가로 길이 */
+}
+
+table.topTable tr {						/* 테이블 행 옵션 */
+height:						100%;		/* 행 높이 고정값으로 부여 */ 
+vertical-align:		 		center;		/* 행 내부 개체 정렬방식 */
+}
+
+table.topTable td {						/* 테이블 행 옵션 */
+width:	33.3%;		 
+vertical-align:		 		center;		/* 행 내부 개체 정렬방식 */
+
+}
+
+.topMenuBtn {										/* 최상단 메뉴 텍스트 효과 */
+font-size:					20px;					/* 글자크기 */
+color:						white;					/* 글자색상 */
+text-decoration:			none;					/* 글자효과 */
+text-shadow: 				2px 2px 3px silver;		/* 글자 그림자 - x축, y축, 번짐범위, 번짐색상 */
+margin:						30px;
+
+}
+
+.topMenuBtn:hover {
+cursor : 					pointer;	/* 마우스오버시 마우스포인터 변경 */
+}
+
+.topMenuLogo {
+margin:		0 0 0 10%;
+}
+
+.topMenuLoginBtn {
+margin:		0 10% 0 0;	
+}
+
+.userName {
+color:	black;
+}
+
+
+/* dropdown */
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  margin:		20px 100px 0 0;
+}
+
+.infoView {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 180px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.infoView a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.infoViewBtn {
+  text-decoration: none;
+  color: black;
+  padding: 10px 30px;
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.21);
+  border-bottom: 4px solid rgba(0,0,0,0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+}
+
+.infoView a:hover {}
+
+.dropdown:hover .infoView {display: block;}
+
+.infoViewBtn:hover {cursor :	pointer; background-color: #1de2e2;}
+/**/
+
+
+
+/* footer */
+.footTable {
+width:						100%;		/* 테이블 가로 길이 */	
+}
+
+table.footTable tr {						/* 테이블 행 옵션 */
+height:					    100%;		/* 행 높이 고정값으로 부여 */ 
+vertical-align:		 		top;		
+}
+
+table.footTable td {						/* 테이블 행 옵션 */
+width:						100%;		/* 행 높이 고정값으로 부여 */ 
+vertical-align:		 		top;		
+}
+
+.footMenuBtn {
+font-size:					15px;					/* 글자크기 */
+color:						white;					/* 글자색상 */
+text-decoration:			none;					/* 글자효과 */
+text-shadow: 				2px 2px 3px silver;		/* 글자 그림자 - x축, y축, 번짐범위, 번짐색상 */	
+}
+
+
+/* 로그인 */
+#loginField {
+width:	50%;
+height: 50%;
+display: inline-block;
+margin:	 10% 0 0 0;
+}
+
+.loginFieldLogo {
+text-decoration: none;
+color:		#1de2e2;
+font-size:	30px;
+}
+
+#loginForm {
+width: 80%;
+height: 80%;
+margin:	5% auto;
+}
+
+table.loginTable {
+width:	100%;
+height:	100%;
+border:	 1px solid silver;
+background-color:			white;
+border-radius: 10px;
+}
+
+table.loginTable a {
+text-decoration: none;
+color:	silver;
+}
+
+.loginInfo {
+  width:	70%;
+  text-decoration: none;
+  color: black;
+  padding: 10px 30px;
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.21);
+  border-bottom: 4px solid rgba(0,0,0,0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+}
+.btn-gradient {
+  width: 90%;
+  text-decoration: none;
+  color: white;
+  padding: 10px 30px;
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.21);
+  border-bottom: 4px solid rgba(0,0,0,0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+  background-color: #1de2e2;
+}
+
+.btn-gradient:hover {
+cursor :	pointer;
+}
+
+
+/* 회원가입 */
+#signUpField {
+width:	60%;
+height:	100%;
+display: inline-block;
+}
+
+#signUpForm {
+width:  100%;
+height: 100%;
+margin:	2% 0 0 0;
+}
+table.signUpTable {			
+width:  100%;
+height: 80%;
+
+}
+
+table.signUpTable td {
+	width:	100%;	
+}
+
+
+.signUpFieldLogo {
+margin:		5% 0 0 0;
+text-decoration: none;
+color:		#1de2e2;
+font-size:	30px;
+	
+}
+
+.signUpInfo {
+  width: 40%;
+  text-decoration: none;
+  color: black;
+  padding: 10px 30px;
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.21);
+  border-bottom: 4px solid rgba(0,0,0,0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);	
+}
+
+#signUpBtn {
+  width: 50%;
+  text-decoration: none;
+  color: #1de2e2;
+  padding: 10px 30px;
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.21);
+  border-bottom: 4px solid rgba(0,0,0,0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+  	
+}
+
+#signUpBtn:hover {
+cursor :	pointer;	
+}
+
+/* 아이디/비밀번호 찾기 */
+#findField {
+	width:	100%;
+	height:	100%;
+	display: inline-block; 
+}
+
+#findFieldSelect {
+	width:	100%;
+	height:	10%;
+	text-align:	center;
+	margin:	5% 0 0 0;
+}
+
+#idFindTable, #pwdFindTable {
+	width:	100%;
+	height:	70%;	
+}
+
+#idFindTable td, #pwdFindTable td{
+	width: 50%;
+	text-align:	center;
+}
+
+#findIdView, #findPwdView {
+	width:	100%;
+	height:	20%;
+}
+
+.findInfo {
+  width:	40%;
+  text-decoration: none;
+  color: black;
+  padding: 10px 30px;
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.21);
+  border-bottom: 4px solid rgba(0,0,0,0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+}
+
+#findIdBtn {
+  width: 50%;
+  text-decoration: none;
+  color: white;
+  padding: 10px 30px;
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.21);
+  border-bottom: 4px solid rgba(0,0,0,0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+  background-color: #1de2e2;
+}
+
+
+#findPwdBtn {
+  width: 50%;
+  text-decoration: none;
+  color: white;
+  padding: 10px 30px;
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.21);
+  border-bottom: 4px solid rgba(0,0,0,0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+  background-color: #1de2e2;
+}
+
+
+
+
+/* 마이페이지 */
+#myPageField {
+width:40%;
+height:	90%;
+display: inline-block;
+margin:	5% 0 0 0;
+}
+
+.myPageTable {
+border: 1px solid silver;
+border-collapse:collapse;
+width:100%;
+height:	80%;
+margin:	5% 0 0 0;
+}
+
+.myPageTable th {
+width:100%;
+color:	white;
+background-color: #1de2e2;
+
+}
+
+.myPageTable td {
+	width:50%;
+}	
+
+.myPageInfo {
+  width:	50%;
+  text-decoration: none;
+  color: black;
+  padding: 10px 30px;
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.21);
+  border-bottom: 4px solid rgba(0,0,0,0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+  text-align: center;	
+}
+
+
+#myPageModBtn {
+  width:	40%;
+  text-decoration: none;
+  color: white;
+  padding: 10px 30px;
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.21);
+  border-bottom: 4px solid rgba(0,0,0,0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+  background-color:	#1de2e2;	
+}
+
+#myPageModBtn:hover {
+cursor :	pointer;
+}
+
+/* 마이페이지 수정 */
+
+#myPageUpdateField {
+width:40%;
+height:	90%;
+display: inline-block;
+margin:	3% 0 0 0;
+}
+
+#myPageUpdateForm {
+width:	100%;
+height:	100%;
+}
+
+table.myPageUpdateTable {			
+width:	100%;
+height:	100%;
+border: 1px solid silver;
+border-collapse:collapse;
+}
+
+table.myPageUpdateTable th {			
+color:	white;
+background-color: #1de2e2;
+}
+
+table.myPageUpdateTable td {			
+width:50%;
+}
+
+.myPageUpdateInfo {
+  width:	50%;
+  text-decoration: none;
+  color: black;
+  padding: 10px 30px;
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.21);
+  border-bottom: 4px solid rgba(0,0,0,0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+  text-align: center;	
+}
+
+
+#myPageUpdateBtn {
+  width:	40%;
+  text-decoration: none;
+  color: white;
+  padding: 10px 30px;
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.21);
+  border-bottom: 4px solid rgba(0,0,0,0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+  background-color:	#1de2e2;		
+}
+
+#myPageUpdateBtn:hover {
+cursor :	pointer;
+}
+
+/* admin 업체승인 페이지 */
+#approveFormField {
+width:100%;
+height:100%;
+display: inline-block;
+}
+
+.approveFormSpan {
+width:80%;
+height: 10%;
+margin: 2% 0 0 10%;
+font-size:	20px;
+
+}
+
+table.approveFormTable {
+width:80%;
+height: auto;
+margin: 0 0 0 10%;
+border:	1px solid white;
+border-collapse: collapse;
+}
+
+table.approveFormTable th {
+	color:	white;
+	border:	1px solid white;
+	background-color: #1de2e2;	
+	height: 30px;
+}
+
+table.approveFormTable td {
+	height: 50px;
+	border-bottom:	1px solid silver;
+}
+
+/* admin 업체관리 페이지 */
+#manageFoodRoomField {
+width:100%;
+height:100%;
+display: inline-block;
+}
+
+.manageFoodRoomSpan {
+width:80%;
+height: 10%;
+margin: 2% 0 0 10%;
+font-size:	20px;	
+}
+
+.manageFoodRoomTableField {
+	width:80%;
+	height: 70%;
+	margin: 0 0 0 10%;
+}
+
+.manageFoodRoomFormField {
+	width:80%;
+	height: 10%;
+	margin: 0 0 5% 10%;
+}
+#manageFoodRoomForm {
+width:100%;
+height: 10%;
+}
+
+table.manageFoodRoomTable {
+width:100%;
+height: auto;	
+border:	1px solid white;
+border-collapse: collapse;
+
+}
+
+table.manageFoodRoomTable th {
+	color:	white;
+	border:	1px solid white;
+	background-color: #1de2e2;	
+	height: 30px;
+}
+
+table.manageFoodRoomTable td {
+	height: 50px;
+	border-bottom:	1px solid silver;
+}
+
+
+.selectText {
+width: 40%;
+  text-decoration: none;
+  color: black;
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.21);
+  border-bottom: 4px solid rgba(0,0,0,0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+}
+
+.findStoreListBtn {
+  text-decoration: none;
+  color: black;
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.21);
+  border-bottom: 4px solid rgba(0,0,0,0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+}
+
+.findStoreListBtn:hover {
+cursor :	pointer; 
+}
+
+/* admin lookRoomList*/
+#lookRoomListField {
+	width:100%; 
+	height:100%; 
+	overflow:scroll;
+}
+
+.addRoomInfoField {
+	width: 10%;
+	height: 5%;
+	margin: 0 0 0 85%;
+}
+
+.addRoomBtn {
+  text-decoration: none;
+  color: black;
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.21);
+  border-bottom: 4px solid rgba(0,0,0,0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+}
+
+.lookRoomView1Field {
+	width:		49%;
+	height:		95%;
+	float:		left;
+}
+
+.lookRoomView2Field {
+	width:		49%;
+	height:		95%;
+	float:		right;
+}
+
+.lookRoomView1 {
+	width:	80%;
+	min-height:150px;
+	margin: 0 0 1% 10%;
+	border: 1px solid silver;
+}
+
+.lookRoomView2 {
+	width:	80%;
+	min-height:150px;
+	margin: 0 0 1% 10%;
+	border: 1px solid silver;
+}
+
+.roomListBtnField {
+	padding: 1% 0 0 0;
+	clear: left;
+}
+
+.roomListBtn {
+  text-decoration: none;
+  color: black;
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.21);
+  border-bottom: 4px solid rgba(0,0,0,0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+}
+
+.roomListBtn:hover {
+	cursor :	pointer;
+}
+
+/* lookRoomList addRoomInfo */
+#addRoomInfoFormField {
+    width: 500px;
+    height: 220px;
+	background: white;
+	position: absolute;
+	top: 100px;
+	left: 835px;
+	border: 1px solid silver;
+	border-radius: 5px;
+}
+.addRoomInfoFormTable {
+width:100%;
+height: 100%;
+}
+
+.addRoomInfoFormTable tr {
+width: 49%;
+
+}
+.addRoomInfoFormTable td {
+width: 100%;
+
+}
+.addRoomInfoFormTable td button, label:hover {
+	cursor :	pointer;
+}
+.roomInfoBtn {
+  text-decoration: none;
+  color: black;
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.21);
+  border-bottom: 4px solid rgba(0,0,0,0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+}
+
+.roomNameNo {
+  text-decoration: none;
+  color: black;
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.21);
+  border-bottom: 4px solid rgba(0,0,0,0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+}
+/* 달력 설정 */
+
+#reservationField {
+	width: 80%;
+	height: 100%;
+	margin: 0 0 0 10%;
+	padding: 3% 0 0 0;
+}
+
+table.ownerCalenderLayout {
+width:						100%;		/* 테이블 너비 고정값으로 */
+height:						auto;
+text-align:					center;		/* 텍스트 정렬방식 중앙 */
+
+
+}
+
+table.ownerCalenderLayout td {
+width:					100%;
+height:					100%;
+
+}
+
+table.calendarList {
+width:						100%;
+height:						100%;
+font-size:					12px;
+border-collapse: collapse;
+
+}
+
+
+table.calendarList tr {
+background:					white;
+height:						70px;	
+}
+
+
+table.calendarList td {
+background:					white;
+width:						100px;	
+font-size:					14px;
+border:  solid silver;
+}
+
+table.calendarList td:hover {
+	cursor :	pointer; 
+}
+
+table.calendarList tr.calendarListTop {
+background:					black;
+height:						50px;
+color:						white;
+font-size:					16px;
+}
+
+table.calendarList td.calendarListTop {
+background:					 #1de2e2;
+height:						50px;
+color: 						white;
+font-size:					16px;
+}
+
+
+table.calendarList tr.calendarDayText {
+height:						30px;
+font-size:					16px;
+}
+
+table.calendarList td.calendarDayText {
+height:						30px;
+font-size:					16px;
+}
+
+
+
+
+/* owner */
+
+#reservationFormField {
+	width:100%; 
+	height:100%; 
+	overflow:scroll;
+}
+
+.reservationFormDay {
+	width:100%;
+	height:4%;
+}
+
+.reservationPossible {
+	width:		49%;
+	height:		95%;
+	float:		left;
+}
+
+.reservatioinImpossible {
+	width:		49%;
+	height:		95%;
+	float:		right;
+}
+
+.reservationPossibleField {
+	width:	80%;
+	min-height:150px;
+	margin: 0 0 1% 10%;
+	border: 1px solid silver;
+}
+
+.reservatioinImpossibleField {
+	width:	80%;
+	min-height:150px;
+	margin: 0 0 1% 10%;
+	border: 1px solid silver;
+}
+
+.offReservationBtnField {
+	padding: 1% 0 0 0;
+	clear: left;
+}
+
+.reservationFormBtn {
+  text-decoration: none;
+  color: black;
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.21);
+  border-bottom: 4px solid rgba(0,0,0,0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+}
+
+.reservationFormBtn:hover {
+	cursor :	pointer;
+}
+
+.reservationBtn {
+  text-decoration: none;
+  color: black;
+  display: inline-block;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.21);
+  border-bottom: 4px solid rgba(0,0,0,0.21);
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+}
+
+.reservationBtn:hover {
+	cursor :	pointer;
+}
+
+
+table.revUserListTable { /* 예약현황 table */
+	width:100%;
+height: auto;	
+border:	1px solid white;
+border-collapse: collapse;
+}
+
+table.revUserListTable th {
+	color:	white;
+	border:	1px solid white;
+	background-color: #1de2e2;	
+	height: 30px;
+}
+
+table.revUserListTable.td {
+		height: 50px;
+	border-bottom:	1px solid silver;
+}
+
+
+
+/* member */
+#menu {
+   	width: 100%;
+   	height: 50px;
+   	background: #ffffff;
+}
+
+#menu ul, li {
+	list-style:	none;
+}
+
+#menu a {
+	color:	black;
+}
+
+.main1 {
+	width:  400px;
+	height: 100%;
+	margin: 0 200px 0 0;
+	padding:0 30px 0 0;	
+}
+
+.main1>li {
+	float: left;
+	width: 25%;
+	line-height: 50px;
+	text-align: center;
+	position: relative;
+}
+.main1>li:hover .main2 {
+	left: 0;
+}
+.main1>li a {
+	display: block;
+	
+}
+.main1>li a:hover {
+	background: #1de2e2;
+	color: #fff;
+	font-weight: bold;
+}
+.main2 {
+	width: 100%;
+	position: absolute;
+	top: 50px;
+	left: -9999px;
+	background: #ffffff;
+	
+}
+.main2>li {
+	position: relative;
+	
+}
+.main2>li:hover .main3 {
+	left: 100%;
+}
+.main2>li a, .main3>li a {
+	border-radius: 10px;
+	margin: 0;
+}
+.main3 {
+	position: absolute;
+	top: 0;
+	background: #ffffff;
+	width: 100%;
+	left: -9999px;  c   
+	/*left: 100%;*/
+	/*display: none;*/
+}
+.main3>li a:hover {
+	background: #1de2e2;
+	color: #fff;
+}
+
+
+/* member */
+
+#storeListPageField {
+	width:80%;
+	height:100%;
+	display: inline-block;	
+}
+
+.storeList {
+	width:100%;
+	height:70%;
+	 border:1px solid black;
+}
+
+table.storeListTable {
+	width:100%;
+	height:auto;
+	border:	1px solid white;
+    border-collapse: collapse;	
+   
+}
+
+table.storeListTable th {
+	color:	white;
+	border:	1px solid white;
+	background-color: #1de2e2;	
+	height: 30px;	
+}
+
+table.storeListTable td {
+	height: 50px;
+	border-bottom:	1px solid silver;	
+}
